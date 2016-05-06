@@ -22,7 +22,7 @@ function Manager() {
     return { compile: function() { return '#VAR' + index; } };
   }
 
-  function getSRLText(lua) {
+  function getSRLText() {
     return output.join('\n');
   }
 

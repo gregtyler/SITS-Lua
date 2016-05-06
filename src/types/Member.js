@@ -5,7 +5,6 @@ function Member(base, identifier) {
 
 Member.prototype.compile = function() {
   var base = this.base;
-  var construct = base.constructor.name;
 
   if (base.resolve() === 'Profile') {
     return base.compile(this.identifier.name);
