@@ -24,6 +24,9 @@ function Parser(lua) {
     } else if (statement.type === 'LocalStatement') {
       var name = statement.variables[0].name;
       manager.setVariable(name, handleStatement(statement.init[0]));
+    } else if (statement.type === 'AssignmentStatement') {
+      var name = statement.variables[0].name;
+      manager.setVariable(name, handleStatement(statement.init[0]), {scope: 'global'});
     } else if (statement.type === 'CallExpression') {
       if (statement.base.name === 'W' || statement.base.name === 'V' || statement.base.name === 'U') {
         return new Passthru(statement.base.name, handleStatement(statement.arguments[0]));

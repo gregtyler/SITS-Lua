@@ -22,3 +22,12 @@ local FEE_STATUS = PROFILE('FST', {FST_CODE= STU.STU_FSTC});
 local FEE_GROUP = PROFILE('FSG', {FSG_CODE= FEE_STATUS.FST_FSGC});
 
 print(FEE_GROUP.FSG_NAME);
+
+-- Deaf variables
+print(STU_CODE);
+
+-- String concatenation
+print(STU.STU_CODE .. ": " .. STU.STU_NAME);
+
+-- If statements
+-- Loops

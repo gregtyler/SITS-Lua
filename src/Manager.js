@@ -6,8 +6,28 @@ function getVariable(id) {
   return variables[id];
 }
 
-function setVariable(id, val) {
-  variables[id] = val;
+function setVariable(id, val, attr) {
+  if (typeof variables[id] === 'undefined') {
+    variables[id] = {
+      value: undefined,
+      scope: 'local'
+    };
+  }
+
+  // Set value
+  variables[id].value = val;
+
+  // Set any other values
+  if (typeof attr === 'object') {
+    for (var key in attr) {
+      variables[id][key] = attr[key];
+    }
+  }
+
+  // If it's a global variable, output it
+  if (variables[id].scope === 'global') {
+    addLine('<<#' + id + '=' + variables[id].value.compile() + '>>');
+  }
 }
 
 function addLine(line) {
@@ -17,8 +37,9 @@ function addLine(line) {
 // To avoid nesting, create a temporary variable
 function createVariable(definition) {
   var index = varIndex++;
-  addLine('<<#VAR' + index + '=' + definition.compile() + '>>');
-  return { compile: function() { return '#VAR' + index; } };
+  setVariable('VARL' + index, definition, {scope: 'global'})
+
+  return { compile: function() { return '#VARL' + index; } };
 }
 
 function getSRLText() {
