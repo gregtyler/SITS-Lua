@@ -1,5 +1,9 @@
 {
   "dependencies": {
     "luaparse": "^0.2.1"
+  },
+  "devDependencies": {
+    "tap-spec": "^4.1.1",
+    "tape": "^4.5.1"
   }
 }

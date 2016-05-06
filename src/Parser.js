@@ -9,6 +9,8 @@ const manager = require('./Manager');
 function Parser(lua) {
   'use strict';
 
+  manager.reset();
+
   function handleStatement(statement) {
     if (statement.type === 'CallStatement') {
       if (statement.expression.base.name === 'print') {
