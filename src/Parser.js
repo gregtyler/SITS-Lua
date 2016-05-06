@@ -1,9 +1,11 @@
 const luaparse = require('luaparse');
+const Concatenator = require('./types/Concatenator');
 const Identifier = require('./types/Identifier');
 const Member = require('./types/Member');
 const Passthru = require('./types/Passthru');
 const Profile = require('./types/Profile');
 const Table = require('./types/Table');
+const Void = require('./types/Void');
 const manager = require('./Manager');
 
 function Parser(lua) {
@@ -27,6 +29,10 @@ function Parser(lua) {
     } else if (statement.type === 'AssignmentStatement') {
       var name = statement.variables[0].name;
       manager.setVariable(name, handleStatement(statement.init[0]), {scope: 'global'});
+    } else if (statement.type === 'BinaryExpression') {
+      if (statement.operator === '..') {
+        return new Concatenator(handleStatement(statement.left), handleStatement(statement.right));
+      }
     } else if (statement.type === 'CallExpression') {
       if (statement.base.name === 'W' || statement.base.name === 'V' || statement.base.name === 'U') {
         return new Passthru(statement.base.name, handleStatement(statement.arguments[0]));
@@ -43,7 +49,7 @@ function Parser(lua) {
     } else if (statement.type === 'Identifier') {
       return new Identifier(statement.name);
     } else if (statement.type === 'StringLiteral') {
-      return statement.value;
+      return new Void(statement.value);
     } else if (statement.type === 'TableConstructorExpression') {
       return new Table(statement.fields, handleStatement);
     } else {

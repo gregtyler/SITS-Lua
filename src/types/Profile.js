@@ -24,7 +24,7 @@ Profile.prototype.compile = function(field) {
     profile.push(key + '=<' + value.compile() + '>');
   }
 
-  return profile.join('�;') + '&G' + field + '.' + this.fields;
+  return profile.join('·;') + '&G' + field.compile() + '.' + this.fields.compile();
 }
 
 Profile.prototype.bind = function(field) {
